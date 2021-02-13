@@ -14,43 +14,44 @@ print(stringArray)
 // 5. Переведите массив строк с именами людей в одну строку, содержащую все эти имена, с помощью функции Reduce
 
 var names = ["Andrey","Anton","Alexander","Sergey"]
-var namesString =  names.reduce(" ", +)
+var namesString =  names.map{$0 + " "}.reduce("", +)
 print(namesString)
 
 // 6. Напишите функцию, которая принимает в себя функцию c типом (Void) -&gt; Void, которая будет вызвана с задержкой в две секунды
 
+func asyncAfterTwoSec(_ workItem: () -> Void) {
+    print("hello")
+}
+
 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-    let hello: ()->Void = { print("Hello world")}
-    hello()
+
+    asyncAfterTwoSec {
+        print("hello")
+    }
 }
 
 // 7. Напишите функцию, которая принимает в себя две функции и возвращает функцию, которая при вызове выполнит первые две функции.
 
 func printTextOne() {
-    print("Hello World")
+    print("Функция 1 вызвана")
 }
 
 func printTextTwo() {
-     print("Hello World")
+     print("Функция 2 вызвана")
     return printTextOne()
  }
 
-func returnPrintTextFunction() -> () -> ()  {
-    return printTextTwo
+func carry(_ a: @escaping () -> Void, _ b: @escaping () -> Void) -> (() -> Void) {
+    printTextTwo
 }
 
-let newFunctionInLet = returnPrintTextFunction()
+let newFunctionInLet = carry { printTextOne() } _: { printTextTwo() }
 newFunctionInLet()
 
 // 8. Напишите функцию, которая сортирует массив по переданному алгоритму: принимает в себя массив чисел и функцию, которая берёт на вход два числа, возвращает Bool (должно ли первое число идти после второго) и возвращает массив, отсортированный по этому алгоритму
 
 func sorted(_ numberOne: Int, _ numberTwo: Int) -> Bool {
-    if numberOne <= numberTwo {
-        return true
-    }
-    else {
-        return false
-    }
+    return numberOne <= numberTwo
 }
 
 var numbers = [4,2,5,7,1,3,6]
