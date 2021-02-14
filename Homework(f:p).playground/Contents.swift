@@ -38,11 +38,11 @@ func printTextOne() {
 
 func printTextTwo() {
      print("Функция 2 вызвана")
-    return printTextOne()
+     return printTextOne()
  }
 
 func carry(_ a: @escaping () -> Void, _ b: @escaping () -> Void) -> (() -> Void) {
-    printTextTwo
+    return printTextTwo
 }
 
 let newFunctionInLet = carry { printTextOne() } _: { printTextTwo() }
